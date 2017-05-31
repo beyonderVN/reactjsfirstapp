@@ -10,10 +10,12 @@ var NoteList = React.createClass({
     return {mang:[]};
   },
   addNoteDiv(){
-    ReactDOM.render(
-      <InputDiv setEvent={list.setEvent}/>,
-      document.getElementById('div-add')
-    );
+    // ReactDOM.render(
+    //   <InputDiv setEvent={list.setEvent}/>,
+    //   document.getElementById('div-add')
+    // );
+    $("#div-add").css("top", "20px");
+    $("#div-add").css("opacity", "1");
   }, 
   setList(data){
     this.setState({mang:data});
@@ -49,7 +51,8 @@ var NoteList = React.createClass({
       <div>
         <div className="header animation">
           <button className="w3-margin w3-button w3-border " onClick={this.addNoteDiv}>ADDNOTE</button>
-          <div id="div-add" className="animation">
+          <div id="div-add" className="div-add animation">
+          <InputDiv setEvent={list.setEvent}/>
           </div>
         </div>
 

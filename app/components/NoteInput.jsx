@@ -5,12 +5,12 @@ var InputDiv = React.createClass({
     var that = this;
     $.post("/add",{note: this.refs.txt.value}, function(data){
         that.props.setEvent({action:'add',mang: data});
-        ReactDOM.unmountComponentAtNode(document.getElementById('div-add'));
+        $("#div-add").css("top", "-200px");
     });
   },
   render: function(){
     return (
-      <div className="w3-margin w3-animate-zoom div-add">
+      <div className="w3-margin ">
         <input className="w3-input" type="text" ref = "txt" placeholder="EnteryourNote!"/>
         <br/>
         <button className="w3-button w3-border" onClick={this.send}>SEND</button>

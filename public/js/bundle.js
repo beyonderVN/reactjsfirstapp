@@ -21895,7 +21895,12 @@
 	    return { mang: [] };
 	  },
 	  addNoteDiv: function addNoteDiv() {
-	    ReactDOM.render(React.createElement(InputDiv, { setEvent: list.setEvent }), document.getElementById('div-add'));
+	    // ReactDOM.render(
+	    //   <InputDiv setEvent={list.setEvent}/>,
+	    //   document.getElementById('div-add')
+	    // );
+	    $("#div-add").css("top", "20px");
+	    $("#div-add").css("opacity", "1");
 	  },
 	  setList: function setList(data) {
 	    this.setState({ mang: data });
@@ -21937,7 +21942,11 @@
 	          { className: 'w3-margin w3-button w3-border ', onClick: this.addNoteDiv },
 	          'ADDNOTE'
 	        ),
-	        React.createElement('div', { id: 'div-add', className: 'animation' })
+	        React.createElement(
+	          'div',
+	          { id: 'div-add', className: 'div-add animation' },
+	          React.createElement(InputDiv, { setEvent: list.setEvent })
+	        )
 	      ),
 	      React.createElement(
 	        'div',
@@ -22049,14 +22058,14 @@
 	    var that = this;
 	    $.post("/add", { note: this.refs.txt.value }, function (data) {
 	      that.props.setEvent({ action: 'add', mang: data });
-	      ReactDOM.unmountComponentAtNode(document.getElementById('div-add'));
+	      $("#div-add").css("top", "-200px");
 	    });
 	  },
 
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { className: 'w3-margin w3-animate-zoom div-add' },
+	      { className: 'w3-margin ' },
 	      React.createElement('input', { className: 'w3-input', type: 'text', ref: 'txt', placeholder: 'EnteryourNote!' }),
 	      React.createElement('br', null),
 	      React.createElement(

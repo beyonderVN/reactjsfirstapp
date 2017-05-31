@@ -8,7 +8,7 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 app.listen(3000);
 
-var textmang = ["Con","Duong","Cach","Mang","Con","Lam","Gian","Truan"];
+var textmang = ["Con","Đường","Cách","Mạng","Còn","Lắm","Gian","Truân"];
 var mang = [];
   textmang.forEach(function(element,index) {
     var item={id:index,text:element,active:true};

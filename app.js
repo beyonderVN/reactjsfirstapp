@@ -8,7 +8,7 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 app.listen(3000);
 
-var mang = ["V","K","L"];
+var mang = ["Con","Duong","Cach","Mang","Con","Lam","Gian","Truan"];
 
 app.get('/', function(req, res) {
   res.render("index");

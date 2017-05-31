@@ -1,5 +1,5 @@
 var React = require('react');
-
+var {connect} = require('react-redux');
 var Note = React.createClass({
   getInitialState(){
     return {onEdit: false}
@@ -10,14 +10,16 @@ var Note = React.createClass({
   delete(){
     var that = this;
     $.post("/delete",{idXoa: this.props.id}, function(data){
-      that.props.setEvent({action:'delete',mang: data});
+      var {dispatch} = that.props;
+      dispatch({type: 'DELETE',list:data});
     });
   },
   save(){
     var that = this;
     $.post("/update", {idEdit: that.props.id, text: that.refs.txt.value}, function(data){
       that.setState({onEdit: false});
-      that.props.setEvent({action:'update',mang: data});
+      var {dispatch} = that.props;
+      dispatch({type: 'UPDATE',list:data});
     })
   },
   cancel(){
@@ -52,4 +54,4 @@ var Note = React.createClass({
   }
 });
 
-module.exports = Note;
+module.exports = connect()(Note);

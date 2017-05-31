@@ -2,64 +2,39 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Note = require('./Note.jsx');
 var InputDiv = require('./NoteInput.jsx');
+var {connect} = require('react-redux');
 
-var list;
+
 var NoteList = React.createClass({
-  getInitialState(){
-    list = this;
-    return {mang:[]};
-  },
+
   addNoteDiv(){
-    // ReactDOM.render(
-    //   <InputDiv setEvent={list.setEvent}/>,
-    //   document.getElementById('div-add')
-    // );
-    $("#div-add").css("top", "20px");
-    $("#div-add").css("opacity", "1");
+    $("#div-add").remove("top", "20px");
+    var {dispatch} = this.props;
+    dispatch({type: 'TOGGLE'});
   }, 
-  setList(data){
-    this.setState({mang:data});
-
-    
-  },
-  setEvent(event){
-    switch (event.action) {
-      case 'add':
-        this.setList(event.mang);
-        // scroll to bottom of list
-        var scroller    = $('#list');
-        var height = scroller[0].scrollHeight;
-        scroller.animate({
-          scrollTop: height
-        });
-      case 'update':
-        this.setList(event.mang);
-        // scroll to bottom of list
-        var scroller    = $('#list');
-        var height = scroller[0].scrollHeight;
-        scroller.animate({
-          scrollTop: height
-        });
-      case 'delete':
-        this.setList(event.mang);
-      default:
-
-    }
-  },
   render: function(){
+    const isAdding = this.props.isAdding;
     return (
       <div>
-        <div className="header animation">
+        <div className="header ">
           <button className="w3-margin w3-button w3-border " onClick={this.addNoteDiv}>ADDNOTE</button>
-          <div id="div-add" className="div-add animation">
-          <InputDiv setEvent={list.setEvent}/>
-          </div>
-        </div>
+          {isAdding ? (
+            <div id="div-add" className="div-add ">
+                <InputDiv />
+            </div>
+          ) : (
+            <div id="div-add" className="div-add hide ">
+                <InputDiv />
+            </div>
+          )
 
+          }
+          
+        </div>
         <div id="list" className="list w3-border-top w3-border-bottom ">
         {
-          this.state.mang.map(function(note, index){
-            return <Note setEvent={list.setEvent}  key={index} id={note.id}>{note.text}</Note>
+          this.props.mang.map(function(note, index){
+            return <Note  key={index} id={note.id}>{note.text}</Note>
           })
         }
         </div>
@@ -68,11 +43,14 @@ var NoteList = React.createClass({
     );
   },
   componentDidMount(){
-    var list = this;
+    var that = this;
     $.post("./getNotes",function(data){
-      list.setState({mang: data});
+      var {dispatch} = that.props;
+      dispatch({type: 'ADD',list:data});
     });
   }
 });
 
-module.exports = NoteList;
+module.exports = connect(function(state){
+  return {mang: state.list,isAdding: state.isAdding}
+})(NoteList);

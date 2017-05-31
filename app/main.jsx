@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
+
 /*var Note = React.createClass({
   render: function(){
     return <div className="note">
@@ -62,8 +63,14 @@ var InputDiv = React.createClass({
 });*/
 
 var List = require('./components/List.jsx');
+var {Provider} = require('react-redux');
+var store = require('./Manager.jsx')
+
 ReactDOM.render(
-  <List/>
+  <Provider store={store}>
+    <List/>
+  </Provider>
+ 
   ,
   document.getElementById('app')
 );

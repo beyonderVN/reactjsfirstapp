@@ -1,11 +1,19 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var {connect} = require('react-redux');
 var InputDiv = React.createClass({
   send(){
     var that = this;
     $.post("/add",{note: this.refs.txt.value}, function(data){
-        that.props.setEvent({action:'add',mang: data});
-        $("#div-add").css("top", "-200px");
+        var {dispatch} = that.props;
+        dispatch({type: 'ADD',list:data});
+        dispatch({type: 'TOGGLE'});
+        that.refs.txt.value = '';
+        var scroller    = $('#list');
+        var height = scroller[0].scrollHeight;
+        scroller.animate({
+          scrollTop: height
+        });
     });
   },
   render: function(){
@@ -19,4 +27,4 @@ var InputDiv = React.createClass({
   }
 });
 
-module.exports = InputDiv;
+module.exports = connect()(InputDiv);

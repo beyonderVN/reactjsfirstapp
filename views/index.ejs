@@ -69,15 +69,23 @@
       }
       .div-add{
         position: absolute;
-        top: -200px;
+        top: 20px;
         left: 20px;
         right: 20px;
         background: white;
         padding: 20px;
+        opacity: 1;
+        -webkit-transition: all .55s;
+          -moz-transition: all .55s;
+          transition: all .55s;
         -webkit-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
         -moz-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
         box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
         z-index: 9;
+      }
+      .div-add.hide{
+          top:-220px;
+          opacity: 0;
       }
     </style>
     <body>

@@ -21895,19 +21895,31 @@
 	    return { mang: [] };
 	  },
 	  addNoteDiv: function addNoteDiv() {
-	    ReactDOM.render(React.createElement(InputDiv, { setList: this.setList }), document.getElementById('div-add'));
+	    ReactDOM.render(React.createElement(InputDiv, { setEvent: list.setEvent }), document.getElementById('div-add'));
 	  },
 	  setList: function setList(data) {
 	    this.setState({ mang: data });
 	  },
 	  setEvent: function setEvent(event) {
 	    switch (event.action) {
+	      case 'add':
+	        this.setList(event.mang);
+	        // scroll to bottom of list
+	        var scroller = $('#list');
+	        var height = scroller[0].scrollHeight;
+	        scroller.animate({
+	          scrollTop: height
+	        });
 	      case 'update':
 	        this.setList(event.mang);
-
+	        // scroll to bottom of list
+	        var scroller = $('#list');
+	        var height = scroller[0].scrollHeight;
+	        scroller.animate({
+	          scrollTop: height
+	        });
 	      case 'delete':
 	        this.setList(event.mang);
-
 	      default:
 
 	    }
@@ -21929,12 +21941,12 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'list w3-border-top w3-border-bottom ' },
+	        { id: 'list', className: 'list w3-border-top w3-border-bottom ' },
 	        this.state.mang.map(function (note, index) {
 	          return React.createElement(
 	            Note,
-	            { setEvent: list.setEvent, key: index, id: index },
-	            note
+	            { setEvent: list.setEvent, key: index, id: note.id },
+	            note.text
 	          );
 	        })
 	      )
@@ -22036,7 +22048,7 @@
 	  send: function send() {
 	    var that = this;
 	    $.post("/add", { note: this.refs.txt.value }, function (data) {
-	      that.props.setList(data);
+	      that.props.setEvent({ action: 'add', mang: data });
 	      ReactDOM.unmountComponentAtNode(document.getElementById('div-add'));
 	    });
 	  },
@@ -22044,7 +22056,7 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { className: 'w3-margin w3-animate-zoom' },
+	      { className: 'w3-margin w3-animate-zoom div-add' },
 	      React.createElement('input', { className: 'w3-input', type: 'text', ref: 'txt', placeholder: 'EnteryourNote!' }),
 	      React.createElement('br', null),
 	      React.createElement(

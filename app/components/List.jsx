@@ -11,21 +11,35 @@ var NoteList = React.createClass({
   },
   addNoteDiv(){
     ReactDOM.render(
-      <InputDiv setList={this.setList}/>,
+      <InputDiv setEvent={list.setEvent}/>,
       document.getElementById('div-add')
     );
   }, 
   setList(data){
     this.setState({mang:data});
+
+    
   },
   setEvent(event){
     switch (event.action) {
+      case 'add':
+        this.setList(event.mang);
+        // scroll to bottom of list
+        var scroller    = $('#list');
+        var height = scroller[0].scrollHeight;
+        scroller.animate({
+          scrollTop: height
+        });
       case 'update':
         this.setList(event.mang);
-
+        // scroll to bottom of list
+        var scroller    = $('#list');
+        var height = scroller[0].scrollHeight;
+        scroller.animate({
+          scrollTop: height
+        });
       case 'delete':
         this.setList(event.mang);
-
       default:
 
     }
@@ -38,11 +52,11 @@ var NoteList = React.createClass({
           <div id="div-add" className="animation">
           </div>
         </div>
-        
-        <div className="list w3-border-top w3-border-bottom ">
+
+        <div id="list" className="list w3-border-top w3-border-bottom ">
         {
           this.state.mang.map(function(note, index){
-            return <Note setEvent={list.setEvent}  key={index} id={index}>{note}</Note>
+            return <Note setEvent={list.setEvent}  key={index} id={note.id}>{note.text}</Note>
           })
         }
         </div>

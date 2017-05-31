@@ -8,31 +8,42 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 app.listen(3000);
 
-var mang = ["Con","Duong","Cach","Mang","Con","Lam","Gian","Truan"];
+var textmang = ["Con","Duong","Cach","Mang","Con","Lam","Gian","Truan"];
+var mang = [];
+  textmang.forEach(function(element,index) {
+    var item={id:index,text:element,active:true};
+    mang.push(item);
+  }, this);
+var count = mang.length;
 
 app.get('/', function(req, res) {
   res.render("index");
 });
 
 app.post('/getNotes', function(req, res){
-  res.send(mang);
+
+  res.send(filter());
 });
 
 app.post('/add', parser, function(req, res){
-  var newNote = req.body.note;
+  var newNote = {id:count++,text:req.body.note,active:true};
+  console.log(newNote);
   mang.push(newNote);
-  res.send(mang);
+  res.send(filter());
 });
 
 app.post('/delete', parser, function(req, res){
   var id = req.body.idXoa;
-  mang.splice(id,1);
-  res.send(mang);
+  mang[id].active=false;
+  res.send(filter());
 });
 
 app.post('/update', parser, function(req,res){
   var id = req.body.idEdit;
-  mang[id]= req.body.text;
-  console.log(mang);
-  res.send(mang);
+  mang[id].text= req.body.text;  
+  res.send(filter());
 })
+
+function filter(){
+  return mang.filter((e,i)=>e.active==true);
+}

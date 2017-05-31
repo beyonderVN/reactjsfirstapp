@@ -3,15 +3,81 @@
     <head>
         <title>DemoNodeJs</title>
         <meta charset="UTF-8">
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     </head>
     <style >
       .mauvang{
         background-color: yellow;
       }
+      .wrapper{
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row wrap;
+        justify-content: center;
+      }
+      .appwrap{
+        margin: 10px;
+        max-width: 600px;
+      }
+      .list{
+        height: 600px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 10px;
+        padding: 20px;
+      }
+      .animation{
+        -webkit-transition: all .25s;
+          -moz-transition: all .25s;
+          transition: all .25s;
+      }
+      .hover_scale1:hover {
+          overflow: auto;
+          margin: 0px -10px;
+          -webkit-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
+          -moz-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
+          box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
+          -webkit-transition: all .25s;
+          -moz-transition: all .25s;
+          transition: all .25s;
+      }
+      .hover_scale:hover {
+        -ms-transform: scale(1.1); /* IE 9 */
+        -webkit-transform: scale(1.1); /* Safari */
+        transform: scale(1.1);
+        -webkit-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
+          -moz-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
+          box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
+      }
+      .hover_scale {
+        -ms-transform: scale(1); /* IE 9 */
+        -webkit-transform: scale(1); /* Safari */
+        transform: scale(1);
+        -webkit-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
+          -moz-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
+          box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
+        -webkit-transition: all .25s;
+          -moz-transition: all .25s;
+          transition: all .25s;
+      }
     </style>
     <body>
-        <div id="root"></div>
+      <div class="w3-main w3-row-padding wrapper ">
+        <div class="w3-container w3-card-2 w3-padding appwrap w3-light-grey w3-animate-zoom animation">
+          <h1 class="" style="text-align:center;">SIMPLE NOTE</h1>
+          <div id="app" class="">
+
+        </div>
+        </div>
+        
+      </div>
+        
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" ></script>
         <script type="text/javascript" src="js/bundle.js" ></script>
 

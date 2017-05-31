@@ -4,17 +4,16 @@ var InputDiv = React.createClass({
   send(){
     var that = this;
     $.post("/add",{note: this.refs.txt.value}, function(data){
-        console.log(data);
-        that.props.setList({mang: data});
-        
+        that.props.setList(data);
         ReactDOM.unmountComponentAtNode(document.getElementById('div-add'));
     });
   },
   render: function(){
     return (
-      <div>
-        <input type="text" ref = "txt" placeHolder="EnteryourNote!"/>
-        <button onClick={this.send}>SEND</button>
+      <div className="w3-margin w3-animate-zoom">
+        <input className="w3-input" type="text" ref = "txt" placeholder="EnteryourNote!"/>
+        <br/>
+        <button className="w3-button w3-border" onClick={this.send}>SEND</button>
       </div>
     );
   }

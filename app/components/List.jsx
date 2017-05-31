@@ -15,22 +15,38 @@ var NoteList = React.createClass({
       document.getElementById('div-add')
     );
   }, 
-  setList(list){
-      console.log(list);
-    this.setState(list);
+  setList(data){
+    this.setState({mang:data});
+  },
+  setEvent(event){
+    switch (event.action) {
+      case 'update':
+        this.setList(event.mang);
+
+      case 'delete':
+        this.setList(event.mang);
+
+      default:
+
+    }
   },
   render: function(){
     return (
       <div>
-        <div id="div-add" >
-
+        <div className="header animation">
+          <button className="w3-margin w3-button w3-border " onClick={this.addNoteDiv}>ADDNOTE</button>
+          <div id="div-add" className="animation">
+          </div>
         </div>
-        <button onClick={this.addNoteDiv}>ADDNOTE</button>
+        
+        <div className="list w3-border-top w3-border-bottom ">
         {
           this.state.mang.map(function(note, index){
-            return <Note key={index}> {note} </Note>
+            return <Note setEvent={list.setEvent}  key={index} id={index}>{note}</Note>
           })
         }
+        </div>
+        
       </div>
     );
   },

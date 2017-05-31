@@ -63,8 +63,7 @@ var InputDiv = React.createClass({
 
 var List = require('./components/List.jsx');
 ReactDOM.render(
-  // <NoteList />
   <List/>
   ,
-  document.getElementById('root')
+  document.getElementById('app')
 );

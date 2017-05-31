@@ -110,9 +110,7 @@
 	});*/
 
 	var List = __webpack_require__(182);
-	ReactDOM.render(
-	// <NoteList />
-	React.createElement(List, null), document.getElementById('root'));
+	ReactDOM.render(React.createElement(List, null), document.getElementById('app'));
 
 /***/ }),
 /* 1 */
@@ -21899,30 +21897,47 @@
 	  addNoteDiv: function addNoteDiv() {
 	    ReactDOM.render(React.createElement(InputDiv, { setList: this.setList }), document.getElementById('div-add'));
 	  },
-	  setList: function setList(list) {
-	    console.log(list);
-	    this.setState(list);
+	  setList: function setList(data) {
+	    this.setState({ mang: data });
+	  },
+	  setEvent: function setEvent(event) {
+	    switch (event.action) {
+	      case 'update':
+	        this.setList(event.mang);
+
+	      case 'delete':
+	        this.setList(event.mang);
+
+	      default:
+
+	    }
 	  },
 
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement('div', { id: 'div-add' }),
 	      React.createElement(
-	        'button',
-	        { onClick: this.addNoteDiv },
-	        'ADDNOTE'
+	        'div',
+	        { className: 'header animation' },
+	        React.createElement(
+	          'button',
+	          { className: 'w3-margin w3-button w3-border ', onClick: this.addNoteDiv },
+	          'ADDNOTE'
+	        ),
+	        React.createElement('div', { id: 'div-add', className: 'animation' })
 	      ),
-	      this.state.mang.map(function (note, index) {
-	        return React.createElement(
-	          Note,
-	          { key: index },
-	          ' ',
-	          note,
-	          ' '
-	        );
-	      })
+	      React.createElement(
+	        'div',
+	        { className: 'list w3-border-top w3-border-bottom ' },
+	        this.state.mang.map(function (note, index) {
+	          return React.createElement(
+	            Note,
+	            { setEvent: list.setEvent, key: index, id: index },
+	            note
+	          );
+	        })
+	      )
 	    );
 	  },
 	  componentDidMount: function componentDidMount() {
@@ -21939,19 +21954,70 @@
 /* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(1);
 
 	var Note = React.createClass({
-	  displayName: "Note",
+	  displayName: 'Note',
+	  getInitialState: function getInitialState() {
+	    return { onEdit: false };
+	  },
+	  edit: function edit() {
+	    this.setState({ onEdit: true });
+	  },
+	  delete: function _delete() {
+	    var that = this;
+	    $.post("/delete", { idXoa: this.props.id }, function (data) {
+	      that.props.setEvent({ action: 'delete', mang: data });
+	    });
+	  },
+	  save: function save() {
+	    var that = this;
+	    $.post("/update", { idEdit: that.props.id, text: that.refs.txt.value }, function (data) {
+	      that.setState({ onEdit: false });
+	      that.props.setEvent({ action: 'update', mang: data });
+	    });
+	  },
+	  cancel: function cancel() {
+	    this.setState({ onEdit: false });
+	  },
+
 
 	  render: function render() {
-	    return React.createElement(
-	      "div",
-	      { className: "note" },
-	      this.props.children
-	    );
+	    if (this.state.onEdit) {
+	      return React.createElement(
+	        'div',
+	        { className: 'note w3-row hover_scale w3-animate-zoom', style: { marginTop: 10 + 'px' } },
+	        React.createElement(
+	          'div',
+	          { className: 'w3-col s12' },
+	          React.createElement('input', { className: 'w3-input', type: 'text', defaultValue: this.props.children, ref: 'txt', style: { width: 100 + '%' } })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'w3-col s12 w3-row' },
+	          React.createElement('button', { className: 'w3-col s6 w3-button w3-hover-blue w3-text-blue \tfa fa-check', onClick: this.save }),
+	          React.createElement('button', { className: 'w3-col s6 w3-button w3-hover-red  w3-text-red fa fa-close', onClick: this.cancel })
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        { className: 'note w3-row hover_scale w3-animate-zoom', style: { marginTop: 10 + 'px' } },
+	        React.createElement(
+	          'div',
+	          { className: 'w3-col s12' },
+	          React.createElement('input', { className: 'w3-input', type: 'text', value: this.props.children, disabled: true, style: { width: 100 + '%' } })
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'w3-col s12 w3-row' },
+	          React.createElement('button', { className: 'w3-col s6 w3-button w3-white\tfa fa-edit ', onClick: this.edit }),
+	          React.createElement('button', { className: 'w3-col s6 w3-button w3-white fa fa-trash-o', onClick: this.delete })
+	        )
+	      );
+	    }
 	  }
 	});
 
@@ -21970,9 +22036,7 @@
 	  send: function send() {
 	    var that = this;
 	    $.post("/add", { note: this.refs.txt.value }, function (data) {
-	      console.log(data);
-	      that.props.setList({ mang: data });
-
+	      that.props.setList(data);
 	      ReactDOM.unmountComponentAtNode(document.getElementById('div-add'));
 	    });
 	  },
@@ -21980,11 +22044,12 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      null,
-	      React.createElement('input', { type: 'text', ref: 'txt', placeHolder: 'EnteryourNote!' }),
+	      { className: 'w3-margin w3-animate-zoom' },
+	      React.createElement('input', { className: 'w3-input', type: 'text', ref: 'txt', placeholder: 'EnteryourNote!' }),
+	      React.createElement('br', null),
 	      React.createElement(
 	        'button',
-	        { onClick: this.send },
+	        { className: 'w3-button w3-border', onClick: this.send },
 	        'SEND'
 	      )
 	    );

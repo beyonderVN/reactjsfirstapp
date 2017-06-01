@@ -12,6 +12,7 @@
         background-color: yellow;
       }
       .wrapper{
+        width: 100%;
         display: -webkit-box;
         display: -moz-box;
         display: -ms-flexbox;
@@ -22,21 +23,18 @@
       }
       .appwrap{
         margin: 10px;
-        max-width: 600px;
+        width: 400px;
         position: relative;
-        overflow: hidden;
       }
       .list{
-        height: 600px;
-        overflow-y: auto;
+        height: 500px;
+        overflow-y: scroll;
         overflow-x: hidden;
         padding-bottom: 10px;
         padding: 20px;
       }
-      .animation{
-        -webkit-transition: all .25s;
-          -moz-transition: all .25s;
-          transition: all .25s;
+      .page{
+        padding: 20px;
       }
       .hover_scale1:hover {
           overflow: auto;
@@ -75,9 +73,9 @@
         background: white;
         padding: 20px;
         opacity: 1;
-        -webkit-transition: all .55s;
-          -moz-transition: all .55s;
-          transition: all .55s;
+        -webkit-transition: all .25s;
+          -moz-transition: all .25s;
+          transition: all .25s;
         -webkit-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
         -moz-box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);
         box-shadow: 0 0 4px rgba(34, 44, 55, 0.5);

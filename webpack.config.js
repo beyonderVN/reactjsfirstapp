@@ -2,8 +2,17 @@ var path = require('path');
 var webpack = require('webpack');
  
 module.exports = {
-  entry: './app/main.jsx',
+  entry: './app/app.jsx',
   output: { path: __dirname, filename: './public/js/bundle.js' },
+  resolve:{
+    root: __dirname,
+    alias: {
+      store: 'app/Manager.jsx',
+      List: 'app/components/List.jsx',
+      Note: 'app/components/Note.jsx',
+      NoteInput: 'app/components/NoteInput.jsx'
+    }
+  },
   module: {
     loaders: [
       {

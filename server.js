@@ -16,6 +16,8 @@ var mang = [];
   }, this);
 var count = mang.length;
 
+var history = [];
+
 app.get('/', function(req, res) {
   res.render("index");
 });
@@ -29,6 +31,7 @@ app.post('/add', parser, function(req, res){
   var newNote = {id:count++,text:req.body.note,active:true};
   console.log(newNote);
   mang.push(newNote);
+  
   res.send(filter());
 });
 

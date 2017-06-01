@@ -1,23 +1,30 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Note = require('./Note.jsx');
-var InputDiv = require('./NoteInput.jsx');
-var {connect} = require('react-redux');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Note from 'Note';
+import InputDiv from 'NoteInput';
+import {connect} from 'react-redux';
 
 
-var NoteList = React.createClass({
-
+class NoteList extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      
+    }
+    
+  }
   addNoteDiv(){
     $("#div-add").remove("top", "20px");
-    var {dispatch} = this.props;
+    const {dispatch} = this.props;
     dispatch({type: 'TOGGLE'});
-  }, 
-  render: function(){
+  } 
+
+  render(){
     const isAdding = this.props.isAdding;
     return (
       <div>
         <div className="header ">
-          <button className="w3-margin w3-button w3-border " onClick={this.addNoteDiv}>ADDNOTE</button>
+          <button className="w3-margin w3-button w3-border " onClick={this.addNoteDiv.bind(this)}>ADDNOTE</button>
           {isAdding ? (
             <div id="div-add" className="div-add ">
                 <InputDiv />
@@ -41,7 +48,8 @@ var NoteList = React.createClass({
         
       </div>
     );
-  },
+  }
+
   componentDidMount(){
     var that = this;
     $.post("./getNotes",function(data){
@@ -49,7 +57,7 @@ var NoteList = React.createClass({
       dispatch({type: 'ADD',list:data});
     });
   }
-});
+}
 
 module.exports = connect(function(state){
   return {mang: state.list,isAdding: state.isAdding}

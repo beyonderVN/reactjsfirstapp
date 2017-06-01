@@ -1,30 +1,36 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var {connect} = require('react-redux');
-var InputDiv = React.createClass({
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {connect} from 'react-redux';
+
+class InputDiv extends React.Component{
+  constructor(props){
+    super(props);
+  }
+
   send(){
-    var that = this;
+    const that = this;
     $.post("/add",{note: this.refs.txt.value}, function(data){
-        var {dispatch} = that.props;
+        const {dispatch} = that.props;
         dispatch({type: 'ADD',list:data});
         dispatch({type: 'TOGGLE'});
         that.refs.txt.value = '';
-        var scroller    = $('#list');
-        var height = scroller[0].scrollHeight;
+        const scroller    = $('#list');
+        const height = scroller[0].scrollHeight;
         scroller.animate({
           scrollTop: height
         });
     });
-  },
-  render: function(){
+  }
+
+  render(){
     return (
       <div className="w3-margin ">
         <input className="w3-input" type="text" ref = "txt" placeholder="EnteryourNote!"/>
         <br/>
-        <button className="w3-button w3-border" onClick={this.send}>SEND</button>
+        <button className="w3-button w3-border" onClick={this.send.bind(this)}>SEND</button>
       </div>
     );
   }
-});
+};
 
 module.exports = connect()(InputDiv);

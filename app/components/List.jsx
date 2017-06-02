@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Note from 'Note';
-import InputDiv from 'NoteInput';
+import Note from './Note.jsx';
+import InputDiv from './NoteInput.jsx';
 import {connect} from 'react-redux';
 
 
@@ -50,13 +50,13 @@ class NoteList extends React.Component{
     );
   }
 
-  componentDidMount(){
-    var that = this;
-    $.post("./getNotes",function(data){
-      var {dispatch} = that.props;
-      dispatch({type: 'ADD',list:data});
-    });
-  }
+  // componentDidMount(){
+  //   var that = this;
+  //   $.post("./getNotes",function(data){
+  //     var {dispatch} = that.props;
+  //     dispatch({type: 'ADD',list:data});
+  //   });
+  // }
 }
 
 module.exports = connect(function(state){

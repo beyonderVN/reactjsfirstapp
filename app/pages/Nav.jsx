@@ -1,5 +1,5 @@
 import React from 'react';
-var {NavLink} = require('react-router-dom');
+import {NavLink} from 'react-router-dom';
 
 class Nav extends React.Component{
     render(){

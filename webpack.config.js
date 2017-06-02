@@ -7,10 +7,10 @@ module.exports = {
   resolve:{
     root: __dirname,
     alias: {
-      store: 'app/Manager.jsx',
-      List: 'app/components/List.jsx',
-      Note: 'app/components/Note.jsx',
-      NoteInput: 'app/components/NoteInput.jsx'
+      // store: 'app/Manager.jsx',
+      // List: 'app/components/List.jsx',
+      // Note: 'app/components/Note.jsx',
+      // NoteInput: 'app/components/NoteInput.jsx'
     }
   },
   module: {
@@ -20,7 +20,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['es2015', 'react']
+          presets: ['es2015', 'react','stage-2']
         }
       }
     ]

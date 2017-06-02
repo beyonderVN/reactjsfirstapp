@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 // var {Router, Route, IndexRoute,browserHistory} = require('react-router');
-var {Router,HashRouter,Link,Route,IndexRoute} = require('react-router-dom');
+var {Router,HashRouter,Link,Route,IndexRoute,BrowserRouter} = require('react-router-dom');
 var About = require('./pages/About.jsx');
 var History = require('./pages/History.jsx');
 var Nav = require('./pages/Nav.jsx');

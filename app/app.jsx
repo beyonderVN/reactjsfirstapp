@@ -1,27 +1,42 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-// var {Router, Route, IndexRoute,browserHistory} = require('react-router');
-var {Router,HashRouter,BrowserRouter ,Link,Route,IndexRoute} = require('react-router-dom');
-var About = require('./pages/About.jsx');
-var History = require('./pages/History.jsx');
-var Nav = require('./pages/Nav.jsx');
-var Home = require('./pages/Home.jsx');
-var Main = require('./pages/Main.jsx');
+import React from 'react'
+import ReactDOM from 'react-dom'
 
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
+import About from './pages/About.jsx'
+import History from './pages/History.jsx'
+import Nav from './pages/Nav.jsx'
+import Home from './pages/Home.jsx'
+import Main from './pages/Main.jsx'
+
+import reducers from './reducers.jsx'
+import { createStore } from 'redux'
+
+// Grab the state from a global variable injected into the server-generated HTML
+const preloadedState = window.__PRELOADED_STATE__
+
+// Allow the passed state to be garbage-collected
+delete window.__PRELOADED_STATE__
+console.log(preloadedState);
+// Create Redux store with initial state
+const store = createStore(reducers, preloadedState)
 
 
 ReactDOM.render(
-  <BrowserRouter >
-    <BrowserRouter>
-      <Main >
-        <Route exact path="/" component={Home}/>
-        <Route path="/home" component={Home}/>
-        <Route path="/about" component={About}/>
-        <Route path="/history" component={History}/>
-      </Main>
-    </BrowserRouter >
-  </BrowserRouter >
-  
+  <Router >
+  <Provider store={store}>
+    <Main >
+                <Route exact path="/" component={Home}/>
+                <Route path="/home" component={Home}/>
+                <Route path="/about" component={About}/>
+                <Route path="/history" component={History}/>
+    </Main>
+  </Provider>
+  </Router>
   ,
   document.getElementById('app')
 );

@@ -9,7 +9,7 @@ class InputDiv extends React.Component{
 
   send(){
     const that = this;
-    $.post("/add",{note: this.refs.txt.value}, function(data){
+    $.post("/api/add",{note: this.refs.txt.value}, function(data){
         const {dispatch} = that.props;
         dispatch({type: 'ADD',list:data});
         dispatch({type: 'TOGGLE'});

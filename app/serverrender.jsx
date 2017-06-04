@@ -1,63 +1,37 @@
-require('babel-register');
-import express from "express";
-import bodyParser from "body-parser";
-var app = express();
-var parser = bodyParser.urlencoded({extended:false});
-
-app.use(express.static("public"));
-
-
-app.set("view engine", "ejs");
-app.set("views", "./views");
-app.listen(3000);
-
-var textmang = ["Con","Đường","Cách","Mạng","Còn","Lắm","Gian","Truân"];
-var mang = [];
-  textmang.forEach(function(element,index) {
-    var item={id:index,text:element,active:true};
-    mang.push(item);
-  }, this);
-var count = mang.length;
-
-var history = [];
-
-
-function filter(){
-  return mang.filter((e,i)=>e.active==true);
-}
-
 import React from 'react';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 import { renderToString } from 'react-dom/server'
 import reducers from './app/reducers.jsx'
-import {StaticRouter as Router, match,Route,RouterContext  } from 'react-router-dom';
+import {StaticRouter as Router, match,Route } from 'react-router';
 
 import About from './app/pages/About.jsx'
 import History from './app/pages/History.jsx'
 import Nav from './app/pages/Nav.jsx'
 import Home from './app/pages/Home.jsx'
 import Main from './app/pages/Main.jsx'
-import AppRoutes from './app/routes.jsx'
 
 
 
 // We are going to fill these out in the sections to follow
 function handleRender(req, res) { 
-
   let preloadedState = { list: filter() }
   const store = createStore(reducers, preloadedState)
   // Render the component to a string
   console.log(store.getState());
   const html = renderToString(
     <Router >
-      <Provider store={store}>
-        <Route path="/" component={AppRoutes} />
-      </Provider>
-    </Router>
+  <Provider store={store}>
+    <Main >
+      <Route exact path="/" component={Home}/>
+      <Route path="/home" component={Home}/>
+      <Route path="/about" component={About}/>
+      <Route path="/history" component={History}/>
+    </Main>
+  </Provider>
+  </Router>
   )
-
   // Grab the initial state from our Redux store
   const finalState = store.getState()
   // Send the rendered page back to the client
@@ -170,82 +144,3 @@ function renderFullPage(html, preloadedState) {
         </html>
     `
 }
-
-
-const renderRouter = express.Router();
-app.use('/',renderRouter);
-
-renderRouter.get('*', function(req, res) {
-  console.log(renderRouter);
-  let preloadedState = { list: filter() }
-  const store = createStore(reducers, preloadedState)
-  // Render the component to a string
-  console.log(store.getState());
-  const html = renderToString(
-    <Router >
-      <Provider store={store}>
-        <Route path="/" component={AppRoutes} />
-      </Provider>
-    </Router>
-  )
-
-  // Grab the initial state from our Redux store
-  const finalState = store.getState()
-  // Send the rendered page back to the client
-
-  res.send(renderFullPage(html, preloadedState))
-  match({ routes: AppRoutes, location: req.url }, (err, redirect, props) => {
-    // `RouterContext` is what the `Router` renders. `Router` keeps these
-    // `props` in its state as it listens to `browserHistory`. But on the
-    // server our app is stateless, so we need to use `match` to
-    // get these props before rendering.
-    const html = renderToString(
-      <Router >
-        <Provider store={store}>
-          <Route path="/" component={AppRoutes} />
-        </Provider>
-      </Router>
-    )
-
-    // dump the HTML into a template, lots of ways to do this, but none are
-    // really influenced by React Router, so we're just using a little
-    // function, `renderPage`
-    res.send(renderFullPage(html, preloadedState))
-  })
-
-});
-
-const apiRouter = express.Router();
-app.use('/api',apiRouter);
-
-apiRouter.post('/getNotes', function(req, res){
-
-  res.send(filter());
-});
-
-apiRouter.post('/add', parser, function(req, res){
-  var newNote = {id:count++,text:req.body.note,active:true};
-  console.log(newNote);
-  mang.push(newNote);
-  res.send(filter());
-});
-
-apiRouter.post('/delete', parser, function(req, res){
-  var id = req.body.idXoa;
-  mang[id].active=false;
-  res.send(filter());
-});
-
-apiRouter.post('/update', parser, function(req,res){
-  var id = req.body.idEdit;
-  mang[id].text= req.body.text;  
-  res.send(filter());
-})
-
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-

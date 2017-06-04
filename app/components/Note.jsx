@@ -17,7 +17,7 @@ class Note extends React.Component{
 
   delete(){
     const that = this;
-    $.post("/delete",{idXoa: this.props.id}, function(data){
+    $.post("/api/delete",{idXoa: this.props.id}, function(data){
       const {dispatch} = that.props;
       dispatch({type: 'DELETE',list:data});
     });
@@ -25,7 +25,7 @@ class Note extends React.Component{
 
   save(){
     const that = this;
-    $.post("/update", {idEdit: that.props.id, text: that.refs.txt.value}, function(data){
+    $.post("/api/update", {idEdit: that.props.id, text: that.refs.txt.value}, function(data){
       that.setState({onEdit: false});
       const {dispatch} = that.props;
       dispatch({type: 'UPDATE',list:data});

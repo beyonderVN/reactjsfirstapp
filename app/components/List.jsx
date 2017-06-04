@@ -51,11 +51,13 @@ class NoteList extends React.Component{
   }
 
   // componentDidMount(){
-  //   var that = this;
-  //   $.post("./getNotes",function(data){
-  //     var {dispatch} = that.props;
-  //     dispatch({type: 'ADD',list:data});
-  //   });
+  //   if(this.props.mang===undefined||this.props.mang.length==0){
+  //     var that = this;
+  //     $.post("./getNotes",function(data){
+  //       var {dispatch} = that.props;
+  //       dispatch({type: 'ADD',list:data});
+  //     });
+  //   }  
   // }
 }
 

@@ -14,28 +14,26 @@ import Home from './pages/Home.jsx'
 import Main from './pages/Main.jsx'
 
 import reducers from './reducers.jsx'
-import { createStore } from 'redux'
+import { createStore  } from 'redux'
+import { Provider  } from 'react-redux'
 
 // Grab the state from a global variable injected into the server-generated HTML
 const preloadedState = window.__PRELOADED_STATE__
 
 // Allow the passed state to be garbage-collected
 delete window.__PRELOADED_STATE__
-console.log(preloadedState);
+
 // Create Redux store with initial state
 const store = createStore(reducers, preloadedState)
+console.log(store.getState());
 
+import App from './routes.jsx'
 
 ReactDOM.render(
   <Router >
-  <Provider store={store}>
-    <Main >
-                <Route exact path="/" component={Home}/>
-                <Route path="/home" component={Home}/>
-                <Route path="/about" component={About}/>
-                <Route path="/history" component={History}/>
-    </Main>
-  </Provider>
+    <Provider store={store}>
+      <Route path="/" component={App} />
+    </Provider>
   </Router>
   ,
   document.getElementById('app')

@@ -5,7 +5,6 @@ class About extends React.Component{
         return (
             <div className="page">
                 <h2>About</h2>
-
                 <a className="w3-small" href="https://github.com/beyonderVN/reactjsfirstapp">https://github.com/beyonderVN/reactjsfirstapp</a>
             </div>
         ) 

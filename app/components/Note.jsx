@@ -1,6 +1,7 @@
 
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 class Note extends React.Component{
 
@@ -41,6 +42,7 @@ class Note extends React.Component{
       return <div className="note w3-row hover_scale w3-animate-zoom" style={{marginTop: 10 + 'px'}}>
       <div  className="w3-col s12">
         <input className="w3-input" type="text" defaultValue={this.props.children} ref = "txt" style={{width: 100 + '%'}} />
+        
       </div>
         <div className="w3-col s12 w3-row">
           <button className="w3-col s6 w3-button w3-hover-blue w3-text-blue 	fa fa-check" onClick={this.save.bind(this)}></button>
@@ -49,9 +51,17 @@ class Note extends React.Component{
         
       </div>
     }else{
-      return <div className="note w3-row hover_scale w3-animate-zoom" style={{marginTop: 10 + 'px'}} >
+      const link = "/note/"+this.props.id 
+      return <div className="note w3-row hover_scale w3-animate-zoom" style={{marginTop: 10 + 'px',position:'relative'}} >
       <div className="w3-col s12">
         <input className="w3-input" type="text" value={this.props.children} disabled style={{width: 100 + '%'}} />
+        <Link className="w3-bar-item w3-button " 
+          to={{
+            pathname: link
+            // this is the trick!
+            ,state: { modal: true }
+          }}
+          style={{position:'absolute',top:0,right:0}} >Detail</Link>
       </div>
         
         <div className="w3-col s12 w3-row">

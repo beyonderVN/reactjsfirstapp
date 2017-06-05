@@ -16,21 +16,21 @@ import Main from './app/pages/Main.jsx'
 
 // We are going to fill these out in the sections to follow
 function handleRender(req, res) { 
-  let preloadedState = { list: filter() }
-  const store = createStore(reducers, preloadedState)
-  // Render the component to a string
-  console.log(store.getState());
-  const html = renderToString(
+    let preloadedState = { list: filter() }
+    const store = createStore(reducers, preloadedState)
+    // Render the component to a string
+    console.log(store.getState());
+    const html = renderToString(
     <Router >
-  <Provider store={store}>
-    <Main >
-      <Route exact path="/" component={Home}/>
-      <Route path="/home" component={Home}/>
-      <Route path="/about" component={About}/>
-      <Route path="/history" component={History}/>
-    </Main>
-  </Provider>
-  </Router>
+        <Provider store={store}>
+            <Main >
+            <Route exact path="/" component={Home}/>
+            <Route path="/home" component={Home}/>
+            <Route path="/about" component={About}/>
+            <Route path="/history" component={History}/>
+            </Main>
+        </Provider>
+    </Router>
   )
   // Grab the initial state from our Redux store
   const finalState = store.getState()

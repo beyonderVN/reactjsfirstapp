@@ -24,10 +24,11 @@ const preloadedState = window.__PRELOADED_STATE__
 delete window.__PRELOADED_STATE__
 
 // Create Redux store with initial state
-const store = createStore(reducers, preloadedState)
-console.log(store.getState());
+const store = createStore(reducers, preloadedState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
-import App from './routes.jsx'
+console.log("preloadedState = window.__PRELOADED_STATE__="+store.getState());
+
+import App from './pages/Main.jsx'
 
 ReactDOM.render(
   <Router >
@@ -38,3 +39,4 @@ ReactDOM.render(
   ,
   document.getElementById('app')
 );
+

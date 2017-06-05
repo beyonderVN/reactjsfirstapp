@@ -84,10 +84,6 @@
 
 	var _reactRedux = __webpack_require__(228);
 
-	var _routes = __webpack_require__(267);
-
-	var _routes2 = _interopRequireDefault(_routes);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// Grab the state from a global variable injected into the server-generated HTML
@@ -97,8 +93,9 @@
 	delete window.__PRELOADED_STATE__;
 
 	// Create Redux store with initial state
-	var store = (0, _redux.createStore)(_reducers2.default, preloadedState);
-	console.log(store.getState());
+	var store = (0, _redux.createStore)(_reducers2.default, preloadedState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+	console.log("preloadedState = window.__PRELOADED_STATE__=" + store.getState());
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRouterDom.BrowserRouter,
@@ -106,7 +103,7 @@
 	  _react2.default.createElement(
 	    _reactRedux.Provider,
 	    { store: store },
-	    _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _routes2.default })
+	    _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _Main2.default })
 	  )
 	), document.getElementById('app'));
 
@@ -25699,6 +25696,8 @@
 
 	var _reactRedux = __webpack_require__(228);
 
+	var _reactRouterDom = __webpack_require__(182);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25772,13 +25771,25 @@
 	          )
 	        );
 	      } else {
+	        var link = "/note/" + this.props.id;
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'note w3-row hover_scale w3-animate-zoom', style: { marginTop: 10 + 'px' } },
+	          { className: 'note w3-row hover_scale w3-animate-zoom', style: { marginTop: 10 + 'px', position: 'relative' } },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'w3-col s12' },
-	            _react2.default.createElement('input', { className: 'w3-input', type: 'text', value: this.props.children, disabled: true, style: { width: 100 + '%' } })
+	            _react2.default.createElement('input', { className: 'w3-input', type: 'text', value: this.props.children, disabled: true, style: { width: 100 + '%' } }),
+	            _react2.default.createElement(
+	              _reactRouterDom.Link,
+	              { className: 'w3-bar-item w3-button ',
+	                to: {
+	                  pathname: link
+	                  // this is the trick!
+	                  , state: { modal: true }
+	                },
+	                style: { position: 'absolute', top: 0, right: 0 } },
+	              'Detail'
+	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -28040,9 +28051,23 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouterDom = __webpack_require__(182);
+
+	var _About = __webpack_require__(222);
+
+	var _About2 = _interopRequireDefault(_About);
+
+	var _History = __webpack_require__(223);
+
+	var _History2 = _interopRequireDefault(_History);
+
 	var _Nav = __webpack_require__(224);
 
 	var _Nav2 = _interopRequireDefault(_Nav);
+
+	var _Home = __webpack_require__(225);
+
+	var _Home2 = _interopRequireDefault(_Home);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28056,25 +28081,118 @@
 	    _inherits(Main, _React$Component);
 
 	    function Main() {
+	        var _ref;
+
+	        var _temp, _this, _ret;
+
 	        _classCallCheck(this, Main);
 
-	        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Main.__proto__ || Object.getPrototypeOf(Main)).call.apply(_ref, [this].concat(args))), _this), _this.previousLocation = _this.props.location, _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
 	    _createClass(Main, [{
+	        key: 'componentWillUpdate',
+	        value: function componentWillUpdate(nextProps) {
+	            var location = this.props.location;
+	            // set previousLocation if props.location is not modal
+
+	            if (nextProps.history.action !== 'POP' && (!location.state || !location.state.modal)) {
+	                this.previousLocation = this.props.location;
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var location = this.props.location;
+
+	            var isModal = !!(location && location.state && location.state.modal && this.previousLocation !== location // not initial render
+	            );
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_Nav2.default, null),
-	                this.props.children
+	                _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _Nav2.default }),
+	                _react2.default.createElement(
+	                    _reactRouterDom.Switch,
+	                    { location: isModal ? this.previousLocation : location },
+	                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
+	                    _react2.default.createElement(_reactRouterDom.Route, { path: '/home', component: _Home2.default }),
+	                    _react2.default.createElement(_reactRouterDom.Route, { path: '/about', component: _About2.default }),
+	                    _react2.default.createElement(_reactRouterDom.Route, { path: '/history', component: _History2.default }),
+	                    _react2.default.createElement(_reactRouterDom.Route, { path: '/note/:id', component: Detail })
+	                ),
+	                isModal ? _react2.default.createElement(_reactRouterDom.Route, { path: '/note/:id', component: Modal }) : null
 	            );
 	        }
 	    }]);
 
 	    return Main;
 	}(_react2.default.Component);
+
+	var Detail = function Detail(_ref2) {
+	    var match = _ref2.match;
+	    return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	            'h3',
+	            null,
+	            'ID: ',
+	            match.params.id
+	        )
+	    );
+	};
+
+	var Modal = function Modal(_ref3) {
+	    var match = _ref3.match,
+	        history = _ref3.history;
+
+
+	    var back = function back(e) {
+	        e.stopPropagation();
+	        history.goBack();
+	    };
+	    return _react2.default.createElement(
+	        'div',
+	        {
+	            onClick: back,
+	            style: {
+	                position: 'fixed',
+	                top: 0,
+	                left: 0,
+	                bottom: 0,
+	                right: 0,
+	                background: 'rgba(0, 0, 0, 0.15)'
+	            }
+	        },
+	        _react2.default.createElement(
+	            'div',
+	            { className: 'modal', style: {
+	                    position: 'absolute',
+	                    background: '#fff',
+	                    top: 25,
+	                    left: '10%',
+	                    right: '10%',
+	                    padding: 15,
+	                    border: '2px solid #444'
+	                } },
+	            _react2.default.createElement(
+	                'h3',
+	                null,
+	                'ID: ',
+	                match.params.id
+	            ),
+	            _react2.default.createElement(
+	                'button',
+	                { type: 'button', onClick: back },
+	                'Close'
+	            )
+	        )
+	    );
+	};
 
 	module.exports = Main;
 
@@ -28123,57 +28241,6 @@
 	});
 
 	module.exports = reducer;
-
-/***/ }),
-/* 267 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(36);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _reactRouterDom = __webpack_require__(182);
-
-	var _About = __webpack_require__(222);
-
-	var _About2 = _interopRequireDefault(_About);
-
-	var _History = __webpack_require__(223);
-
-	var _History2 = _interopRequireDefault(_History);
-
-	var _Nav = __webpack_require__(224);
-
-	var _Nav2 = _interopRequireDefault(_Nav);
-
-	var _Home = __webpack_require__(225);
-
-	var _Home2 = _interopRequireDefault(_Home);
-
-	var _Main = __webpack_require__(265);
-
-	var _Main2 = _interopRequireDefault(_Main);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var App = function App() {
-	  return _react2.default.createElement(
-	    _Main2.default,
-	    null,
-	    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
-	    _react2.default.createElement(_reactRouterDom.Route, { path: '/home', component: _Home2.default }),
-	    _react2.default.createElement(_reactRouterDom.Route, { path: '/about', component: _About2.default }),
-	    _react2.default.createElement(_reactRouterDom.Route, { path: '/history', component: _History2.default })
-	  );
-	};
-
-	module.exports = App;
 
 /***/ })
 /******/ ]);

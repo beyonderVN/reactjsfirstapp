@@ -9,7 +9,7 @@ class InputDiv extends React.Component{
     this.state = {
       text : ''
     }
-    this.dispatch = props.dispatch.bind(this)
+    this.dispatch = props.dispatch
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 

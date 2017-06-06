@@ -10,7 +10,7 @@ class Note extends React.Component{
     this.state = {
       onEdit : false
     }
-    this.dispatch = props.dispatch.bind(this)
+    this.dispatch = props.dispatch
     this.edit = this.edit.bind(this)
     this.cancel = this.cancel.bind(this)
     this.delete = this.delete.bind(this)
@@ -30,11 +30,10 @@ class Note extends React.Component{
 
   save(event){
     event.preventDefault()
-    const {dispatch} = this
-    $.post('/api/update', {idEdit: that.props.id, text: that.refs.txt.value}, function(data){
+    const that = this
+    $.post('/api/update', {idEdit: that.props.id, text: that.input.value}, function(data){
       that.setState({onEdit: false});
-      const {dispatch} = that.props;
-      dispatch({type: 'UPDATE',list:data});
+      that.dispatch({type: 'UPDATE',list:data});
     })
   }
 
@@ -50,16 +49,16 @@ class Note extends React.Component{
           className="w3-input" 
           type="text" 
           defaultValue={this.props.children} 
-          ref = "txt" 
+          ref = {(input)=>{this.input = input}}
           style={{width: 100 + '%'}} 
           ref={(input) => this.input = input}
         />
-
-      </form>
         <div className="w3-col s12 w3-row">
-          <button className="w3-col s6 w3-button w3-hover-blue w3-text-blue 	fa fa-check" onClick={this.save}></button>
+          <button className="w3-col s6 w3-button w3-hover-blue w3-text-blue fa fa-check" type="submit"></button>
           <button className="w3-col s6 w3-button w3-hover-red  w3-text-red fa fa-close" onClick={this.cancel}></button>
         </div>
+      </form>
+        
         
       </div>
     }else{

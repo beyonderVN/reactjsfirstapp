@@ -2,18 +2,17 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Route,
   Link
 } from 'react-router-dom'
 
-import About from './pages/About.jsx'
-import History from './pages/History.jsx'
-import Nav from './pages/Nav.jsx'
-import Home from './pages/Home.jsx'
-import Main from './pages/Main.jsx'
+import About from '../pages/About.jsx'
+import History from '../pages/History.jsx'
+import Nav from '../pages/Nav.jsx'
+import Home from '../pages/Home.jsx'
 
-import reducers from './reducers.jsx'
+import reducers from '../reducers.jsx'
 import { createStore  } from 'redux'
 import { Provider  } from 'react-redux'
 
@@ -26,16 +25,19 @@ delete window.__PRELOADED_STATE__
 // Create Redux store with initial state
 const store = createStore(reducers, preloadedState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
-console.log("preloadedState = window.__PRELOADED_STATE__="+store.getState());
+console.log("preloadedState = window.__PRELOADED_STATE__");
+console.log(store.getState());
 
-import App from './pages/Main.jsx'
+import App from '../pages/Main.jsx'
 
 ReactDOM.render(
-  <Router >
+  <BrowserRouter >
     <Provider store={store}>
-      <Route path="/" component={App} />
+      <Route path="/" 
+      component={App} 
+    />
     </Provider>
-  </Router>
+  </BrowserRouter>
   ,
   document.getElementById('app')
 );

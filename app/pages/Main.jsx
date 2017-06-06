@@ -34,14 +34,18 @@ class Main extends React.Component{
         return (
             <div>
                 <Route path="/" component={Nav}/>
+                
                 <Switch location={isModal ? this.previousLocation : location}>
-                    <Route exact path="/" component={Home}/>
+                    
                     <Route path="/home" component={Home}/>
                     <Route path="/about" component={About}/>
                     <Route path="/history" component={History}/>
                     <Route path='/note/:id' component={Detail} />
+
+                    <Route path="/" component={Home}/>
                 </Switch>
                 {isModal ? <Route path='/note/:id' component={Modal} /> : null}
+                
             </div>
         ) 
     }
@@ -82,7 +86,7 @@ const Modal = ({ match, history }) => {
         }}>
             <h3>ID: {match.params.id}</h3>
             <button type='button' onClick={back}>
-            Close
+                Close
             </button>
         </div>
         </div>

@@ -6,13 +6,12 @@ import {connect} from 'react-redux';
 
 
 class NoteList extends React.Component{
+  
   constructor(props){
     super(props);
-    this.state = {
-      
-    }
-    
+    this.addNoteDiv = this.addNoteDiv.bind(this)
   }
+
   addNoteDiv(){
     $("#div-add").remove("top", "20px");
     const {dispatch} = this.props;
@@ -24,7 +23,7 @@ class NoteList extends React.Component{
     return (
       <div>
         <div className="header ">
-          <button className="w3-margin w3-button w3-border " onClick={this.addNoteDiv.bind(this)}>ADDNOTE</button>
+          <button className="w3-margin w3-button w3-border " onClick={this.addNoteDiv}>ADDNOTE</button>
           {isAdding ? (
             <div id="div-add" className="div-add ">
                 <InputDiv />
@@ -34,7 +33,6 @@ class NoteList extends React.Component{
                 <InputDiv />
             </div>
           )
-
           }
           
         </div>

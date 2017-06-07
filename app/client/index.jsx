@@ -7,11 +7,8 @@ import {
   Link
 } from 'react-router-dom'
 
-import About from '../pages/About.jsx'
-import History from '../pages/History.jsx'
-import Nav from '../pages/Nav.jsx'
-import Home from '../pages/Home.jsx'
 
+import App from '../pages/Main.jsx'
 import reducers from '../reducers.jsx'
 import { createStore  } from 'redux'
 import { Provider  } from 'react-redux'
@@ -28,14 +25,13 @@ const store = createStore(reducers, preloadedState, window.__REDUX_DEVTOOLS_EXTE
 console.log("preloadedState = window.__PRELOADED_STATE__");
 console.log(store.getState());
 
-import App from '../pages/Main.jsx'
 
 ReactDOM.render(
   <BrowserRouter >
     <Provider store={store}>
       <Route path="/" 
-      component={App} 
-    />
+        component={App} 
+      />
     </Provider>
   </BrowserRouter>
   ,

@@ -44,7 +44,7 @@ class Note extends React.Component{
   render(){
     if(this.state.onEdit){
       return <div className="note w3-row hover_scale w3-animate-zoom" style={{marginTop: 10 + 'px'}}>
-      <form  className="w3-col s12" onSubmit={this.save}>
+      <form  className="w3-col s12" onSubmit={this.save} style={{margin:0}}>
         <input  
           className="w3-input" 
           type="text" 

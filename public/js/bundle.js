@@ -82,9 +82,12 @@
 	console.log("preloadedState = window.__PRELOADED_STATE__");
 	console.log(store.getState());
 
+	// new khong ho tro BrowserRouter se reload trang yeu cau ho tro rendering server
+	var supportsHistory = 'pushState' in window.history;
+
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRouterDom.BrowserRouter,
-	  null,
+	  { forceRefresh: !supportsHistory },
 	  _react2.default.createElement(
 	    _reactRedux.Provider,
 	    { store: store },

@@ -76,7 +76,7 @@ const Modal = ({ match, history }) => {
         }}
         >
         <div className='modal' style={{
-        position: 'absolute',
+            position: 'absolute',
             background: '#fff',
             top: 25,
             left: '10%',

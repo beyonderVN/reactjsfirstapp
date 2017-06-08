@@ -25,9 +25,11 @@ const store = createStore(reducers, preloadedState, window.__REDUX_DEVTOOLS_EXTE
 console.log("preloadedState = window.__PRELOADED_STATE__");
 console.log(store.getState());
 
+// new khong ho tro BrowserRouter se reload trang yeu cau ho tro rendering server
+const supportsHistory = 'pushState' in window.history
 
 ReactDOM.render(
-  <BrowserRouter >
+  <BrowserRouter forceRefresh={!supportsHistory}>
     <Provider store={store}>
       <Route path="/" 
         component={App} 

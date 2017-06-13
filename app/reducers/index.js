@@ -1,7 +1,10 @@
-var redux = require('redux');
+
+
+var redux = require('redux')
 
 var listReducer = (state = [], action) => {
     switch (action.type) {
+        
         case 'ADD':
             return [...action.list]
         case 'UPDATE':

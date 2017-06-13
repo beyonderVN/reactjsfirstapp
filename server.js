@@ -30,8 +30,8 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 import { renderToString } from 'react-dom/server'
-import reducers from './app/reducers.jsx'
-import {StaticRouter as Router,Route ,matchPath } from 'react-router-dom';
+import reducers from './app/reducers'
+import {StaticRouter,Route ,matchPath } from 'react-router-dom';
 
 import About from './app/pages/About.jsx'
 import History from './app/pages/History.jsx'
@@ -46,22 +46,23 @@ import { match, RouterContext } from 'react-router'
 // We are going to fill these out in the sections to follow
 function handleRender(req, res) { 
 
-  let preloadedState = { list: filter() }
+  // let preloadedState = { list: filter() }
+  let preloadedState = { list: [] }
   const store = createStore(reducers, preloadedState)
   // Render the component to a string
   console.log(store.getState());
+  const context = {}
   const html = renderToString(
-    <Router location={req.url} >
+    <StaticRouter location={req.url} context ={context}>
       <Provider store={store}>
         <Route path="/" component={AppRoutes} />
       </Provider>
-    </Router>
+    </StaticRouter>
   )
 
   // Grab the initial state from our Redux store
   const finalState = store.getState()
   // Send the rendered page back to the client
-
 
   res.send(renderFullPage(html, preloadedState))
 }
@@ -175,9 +176,9 @@ function renderFullPage(html, preloadedState) {
 
 
 const renderRouter = express.Router();
-app.use('/',renderRouter);
 
-renderRouter.get('/*', function(req, res) {
+
+renderRouter.get('/', function(req, res) {
   console.log("req.location");
   console.log(req.url);
   handleRender(req, res)
@@ -185,6 +186,7 @@ renderRouter.get('/*', function(req, res) {
 
 const apiRouter = express.Router();
 
+app.use('/*',renderRouter);
 app.use('/api',apiRouter);
 
 apiRouter.post('/getNotes', function(req, res){

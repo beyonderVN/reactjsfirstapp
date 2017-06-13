@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Note from './Note.jsx';
 import InputDiv from './NoteInput.jsx';
 import {connect} from 'react-redux';
+import {getNoteList} from '../actions'
 
 
 class NoteList extends React.Component{
@@ -48,17 +49,30 @@ class NoteList extends React.Component{
     );
   }
 
-  // componentDidMount(){
-  //   if(this.props.mang===undefined||this.props.mang.length==0){
-  //     var that = this;
-  //     $.post("./getNotes",function(data){
-  //       var {dispatch} = that.props;
-  //       dispatch({type: 'ADD',list:data});
-  //     });
-  //   }  
-  // }
+  componentDidMount(){
+    // if(this.props.mang===undefined||this.props.mang.length==0){
+    //   var that = this;
+    //   $.post("./api/getNotes",function(data){
+    //     var {dispatch} = that.props;
+    //     dispatch({type: 'ADD',list:data});
+    //   });
+    // }
+    this.props.dispatch({
+      type: 'FETCH_NOTE_LIST'
+    })
+  }
+
+  
 }
 
-module.exports = connect(function(state){
-  return {mang: state.list,isAdding: state.isAdding}
-})(NoteList);
+function mapStateToProps(state) {
+  const mang = state.list
+  const isAdding = state.isAdding
+
+  return {
+    mang,
+    isAdding
+  }
+}
+
+module.exports = connect(mapStateToProps)(NoteList);

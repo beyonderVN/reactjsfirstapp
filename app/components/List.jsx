@@ -16,11 +16,11 @@ class NoteList extends React.Component{
   addNoteDiv(){
     $("#div-add").remove("top", "20px");
     const {dispatch} = this.props;
-    dispatch({type: 'TOGGLE'});
+    this.props.addNoteDiv();
   } 
 
   render(){
-    const isAdding = this.props.isAdding;
+    const {mang,isAdding} = this.props;
     return (
       <div>
         <div className="header ">
@@ -39,7 +39,7 @@ class NoteList extends React.Component{
         </div>
         <div id="list" className="list w3-border-top w3-border-bottom ">
         {
-          this.props.mang.map(function(note, index){
+          mang.map(function(note, index){
             return <Note  key={index} id={note.id}>{note.text}</Note>
           })
         }
@@ -49,30 +49,7 @@ class NoteList extends React.Component{
     );
   }
 
-  componentDidMount(){
-    // if(this.props.mang===undefined||this.props.mang.length==0){
-    //   var that = this;
-    //   $.post("./api/getNotes",function(data){
-    //     var {dispatch} = that.props;
-    //     dispatch({type: 'ADD',list:data});
-    //   });
-    // }
-    this.props.dispatch({
-      type: 'FETCH_NOTE_LIST'
-    })
-  }
-
   
+
 }
-
-function mapStateToProps(state) {
-  const mang = state.list
-  const isAdding = state.isAdding
-
-  return {
-    mang,
-    isAdding
-  }
-}
-
-module.exports = connect(mapStateToProps)(NoteList);
+module.exports = NoteList;

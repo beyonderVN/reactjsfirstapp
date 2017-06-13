@@ -36155,8 +36155,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	// import store from '../Manager.jsx';
-
 	var Home = function (_React$Component) {
 	    _inherits(Home, _React$Component);
 
@@ -36167,16 +36165,38 @@
 	    }
 
 	    _createClass(Home, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.props.dispatch({
+	                type: 'FETCH_NOTE_LIST'
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement(_List2.default, null);
+	            var _this2 = this;
+
+	            return _react2.default.createElement(_List2.default, { mang: this.props.mang, isAdding: this.props.isAdding, addNoteDiv: function addNoteDiv() {
+	                    $("#div-add").remove("top", "20px");
+	                    var dispatch = _this2.props.dispatch;
+
+	                    dispatch({ type: 'TOGGLE' });
+	                } });
 	        }
 	    }]);
 
 	    return Home;
 	}(_react2.default.Component);
 
-	module.exports = Home;
+	function mapStateToProps(state) {
+	    var mang = state.list;
+	    var isAdding = state.isAdding;
+	    return {
+	        mang: mang,
+	        isAdding: isAdding
+	    };
+	}
+	module.exports = (0, _reactRedux.connect)(mapStateToProps)(Home);
 
 /***/ }),
 /* 536 */
@@ -36232,12 +36252,15 @@
 	      $("#div-add").remove("top", "20px");
 	      var dispatch = this.props.dispatch;
 
-	      dispatch({ type: 'TOGGLE' });
+	      this.props.addNoteDiv();
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var isAdding = this.props.isAdding;
+	      var _props = this.props,
+	          mang = _props.mang,
+	          isAdding = _props.isAdding;
+
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -36262,7 +36285,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'list', className: 'list w3-border-top w3-border-bottom ' },
-	          this.props.mang.map(function (note, index) {
+	          mang.map(function (note, index) {
 	            return _react2.default.createElement(
 	              _Note2.default,
 	              { key: index, id: note.id },
@@ -36272,36 +36295,12 @@
 	        )
 	      );
 	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      // if(this.props.mang===undefined||this.props.mang.length==0){
-	      //   var that = this;
-	      //   $.post("./api/getNotes",function(data){
-	      //     var {dispatch} = that.props;
-	      //     dispatch({type: 'ADD',list:data});
-	      //   });
-	      // }
-	      this.props.dispatch({
-	        type: 'FETCH_NOTE_LIST'
-	      });
-	    }
 	  }]);
 
 	  return NoteList;
 	}(_react2.default.Component);
 
-	function mapStateToProps(state) {
-	  var mang = state.list;
-	  var isAdding = state.isAdding;
-
-	  return {
-	    mang: mang,
-	    isAdding: isAdding
-	  };
-	}
-
-	module.exports = (0, _reactRedux.connect)(mapStateToProps)(NoteList);
+	module.exports = NoteList;
 
 /***/ }),
 /* 537 */
